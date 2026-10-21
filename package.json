@@ -1,0 +1,18 @@
+{
+  "name": "api-flores",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "db:setup": "node src/setup-db.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "pg": "^8.16.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
