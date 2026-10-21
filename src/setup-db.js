@@ -11,6 +11,16 @@ if (fs.existsSync(envFile)) {
 }
 
 async function main() {
+  if (process.env.DATABASE_URL) {
+    const db = new Client({ connectionString: process.env.DATABASE_URL });
+    await db.connect();
+    await db.query(fs.readFileSync(path.join(__dirname, '..', 'database.sql'), 'utf8'));
+    const { rows } = await db.query('SELECT count(*)::int AS total FROM flores');
+    await db.end();
+    console.log(`Base de datos lista; ${rows[0].total} flores disponibles.`);
+    return;
+  }
+
   const config = {
     host: process.env.PGHOST || 'localhost',
     port: Number(process.env.PGPORT || 5432),

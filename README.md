@@ -2,6 +2,18 @@
 
 API REST con Node.js, Express y PostgreSQL. Incluye 12 flores de ejemplo.
 
+## Despliegue en Render
+
+El archivo `render.yaml` configura un servicio web Node y una base PostgreSQL.
+En Render, crea un **Blueprint** desde este repositorio (`Azu522/flores`) y
+acepta los recursos del plan gratuito. Render configurará `DATABASE_URL` de
+forma privada. El comando de inicio prepara la tabla y los 12 registros de
+ejemplo automáticamente antes de levantar la API.
+
+El plan gratuito de PostgreSQL es temporal: Render lo elimina después de 30
+días. Úsalo para demostración y vuelve a desplegar con una base pagada si
+necesitas conservar datos.
+
 ## Requisitos
 
 - Node.js 20 o posterior.

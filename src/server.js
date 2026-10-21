@@ -13,13 +13,16 @@ if (fs.existsSync(envFile)) {
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
-const pool = new Pool({
+const poolConfig = process.env.DATABASE_URL
+  ? { connectionString: process.env.DATABASE_URL }
+  : {
   host: process.env.PGHOST || 'localhost',
   port: Number(process.env.PGPORT || 5432),
   database: process.env.PGDATABASE || 'flores_db',
   user: process.env.PGUSER || 'postgres',
   password: process.env.PGPASSWORD,
-});
+  };
+const pool = new Pool(poolConfig);
 
 app.use(express.json());
 
@@ -107,9 +110,10 @@ app.use((error, _req, res, _next) => {
   res.status(500).json({ error: 'Error interno del servidor' });
 });
 
-const server = app.listen(port, '127.0.0.1', () => {
-  console.log(`API de flores disponible en http://localhost:${port}`);
-  console.log('Deja esta terminal abierta mientras usas la API. Presiona Ctrl+C para detenerla.');
+const host = process.env.RENDER ? '0.0.0.0' : '127.0.0.1';
+const server = app.listen(port, host, () => {
+  console.log(`API de flores disponible en http://${host}:${port}`);
+  if (!process.env.RENDER) console.log('Deja esta terminal abierta mientras usas la API. Presiona Ctrl+C para detenerla.');
 });
 
 // Keep the HTTP listener referenced so Node stays alive while the API is running.
